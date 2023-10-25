@@ -1,8 +1,14 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import timezone
 from django.contrib.auth.models import User
 
 # Create your models here.
+class ArticlePublishedManager(models.Manager):
+    def get_queryset(self) -> QuerySet:
+        return super().get_queryset().filter(status=Article.Status.PUBLISHED)
+
+
 class Article(models.Model):
 
     class Status(models.TextChoices):
@@ -17,6 +23,9 @@ class Article(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_articles')
+
+    objects = models.Manager()
+    publishedArticles = ArticlePublishedManager()
 
     class Meta:
         ordering = ['-publish']

@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+</head>
+<body>
+    
+    <div class="header">
+        <h2>Personal Blog</h2>
+    </div>
+
+    <div class="row">
+        <div class="leftcolumn">
+            <div class="card">
+                {% block content %}
+                {% endblock %}
+            </div>
+            
+        </div>
+        <div class="rightcolumn">
+            <div class="card">
+                <h2>Blogger Website</h2>
+                <p>This is my blogger website.</p>
+            </div>
+            
+            <div class="card">
+                <h3>Latest Article</h3>
+                {% block latestArticle %}
+                {% endblock %}
+            </div>
+            
+            <div class="card">
+                <h3>Most Commented Article</h3>
+                {% block mostCommentedArticle %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h5>Copyright 2023 All Right Revered </h5>
+    </div> 
+
+</body>
+</html>

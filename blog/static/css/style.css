@@ -1,0 +1,75 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Baskerville";
+    padding: 20px;
+    background: #f1f1f1;
+}
+
+.header {
+    padding: 10px;
+    font-size: 30px;
+    text-align: center;
+    background: #29B5F5;
+    color: #ffffff;
+}
+
+.header h2 {
+    color: #ffffff;
+}
+
+.leftcolumn {
+    float: left;
+    width: 75%;
+}
+
+.rightcolumn {
+    float: left;
+    width: 25%;
+    padding-left: 20px;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    color: grey;
+    font-size: 16px;
+}
+
+.card h2 {
+    color: #29B5F5;
+    font-family: "Book Antiqua";
+}
+
+.card h3 {
+    color: #29B5F5;
+    font-family: "Book Antiqua";
+}
+
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #29B5F5;
+    margin-top: 20px;
+    color: #ffffff;
+}
+
+/* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 800px) {
+
+    .leftcolumn,
+    .rightcolumn {
+        width: 100%;
+        padding: 0;
+    }
+}
