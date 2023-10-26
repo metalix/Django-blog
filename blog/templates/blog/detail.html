@@ -8,4 +8,30 @@
         Published {{ article.publish }} by {{ article.author }}
     </p>
     {{ article.body|linebreaks }}
+    
+    {% with comments.count as total_comments %}
+        <h2>
+            {{ total_comments }} comment{{ total_comments|pluralize }}
+        </h2>
+    {% endwith %}
+
+    {% for comment in comments %}
+        <div>
+            <p>
+                Comment {{ forloop.counter }} by {{ comment.name }} on {{ comment.created }}
+            </p>
+            {{ comment.body|linebreaks }}
+        </div>
+    {% empty %}
+        <div>
+            <p>There are no comments.</p>
+        </div>
+    {% endfor %}
+
+    {% include "blog/comment_form.html" %}
+    
+    <a href="/blog/">
+        Go back to the Articles
+    </a>
+
 {% endblock %}
