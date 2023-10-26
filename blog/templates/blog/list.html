@@ -16,4 +16,5 @@
         {{ article.body|truncatewords:50|linebreaks }}
 
     {% endfor %}
+    {% include "blog/pagination.html" with page=articles %}
 {% endblock %}
