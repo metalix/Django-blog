@@ -5,7 +5,7 @@
 {% block content %}
     {% for article in articles %}
         <h2>
-            <a href={% url 'blog:article_details' article.id %} >
+            <a href={{ article.get_canonical_url }} >
                 {{ article.title }}
             </a>
         </h2>
