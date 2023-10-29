@@ -2,12 +2,18 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.http import require_POST
+from taggit.models import Tag
 from .models import Article, Comment
 from .forms import CommentForm
 
 # Create your views here.
-def list_of_articles(request):
+def list_of_articles(request, tag_slug = None):
     articles = Article.publishedArticles.all()
+
+    tag = None
+    if tag_slug:
+        tag = get_object_or_404(Tag, slug = tag_slug)
+        articles = articles.filter(tags__in = [tag])
 
     paginator = Paginator(articles, 3)
     page_number = request.GET.get('page', 1)
@@ -19,7 +25,7 @@ def list_of_articles(request):
     except PageNotAnInteger:
         articles = paginator.page(1)    
 
-    return render(request, 'blog/list.html', {'articles': articles})
+    return render(request, 'blog/list.html', {'articles': articles, 'tag': tag})
 
 
 def article_details(request, year, month, day, article):
@@ -53,7 +59,6 @@ def comment_for_article(request, article_id):
     if form.is_valid():
         comment = form.save(commit=False)
         comment.article = article
-        comment.save(
-        )
+        comment.save()
 
-    return render(request, 'blog/comment.html', {article: article, 'form': form, 'comment': comment})
+    return render(request, 'blog/comment.html', {'article': article, 'form': form, 'comment': comment})
