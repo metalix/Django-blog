@@ -1,3 +1,4 @@
+{% load article_tags %}
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -23,11 +24,13 @@
             <div class="card">
                 <h2>Blogger Website</h2>
                 <p>This is my blogger website.</p>
+                <p>I have published {% total_articles %} articles till now.</p>
             </div>
             
             <div class="card">
                 <h3>Latest Article</h3>
                 {% block latestArticle %}
+                    {% show_latest_articles 3 %}
                 {% endblock %}
             </div>
             
