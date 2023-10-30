@@ -39,7 +39,7 @@ class Article(models.Model):
     def __str__(self):
         return self.title
     
-    def get_canonical_url(self):
+    def get_absolute_url(self):
         return reverse('blog:article_details',
                        args=[
                            self.publish.year,
