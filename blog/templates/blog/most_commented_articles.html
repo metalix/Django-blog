@@ -1,0 +1,9 @@
+<ul>
+    {% for most_commented_article in most_commented_articles %}
+        <li>
+            <a href="{{ most_commented_article.get_canonical_url }}">{{most_commented_article.title}}</a>
+        </li>
+
+    {% endfor %}
+
+</ul>
