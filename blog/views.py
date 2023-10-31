@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 from django.db.models import Count
 from taggit.models import Tag
 from .models import Article, Comment
-from .forms import CommentForm
+from .forms import CommentForm, SearchForm
 
 # Create your views here.
 def list_of_articles(request, tag_slug = None):
@@ -57,6 +57,21 @@ def article_details(request, year, month, day, article):
         'similar_articles': similar_articles
         })
 
+def article_search(request):
+    form = SearchForm()
+    query = None
+    results = []
+
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            results = Article.objects.raw("SELECT * FROM blog_article WHERE MATCH (title, body) AGAINST (%s)", [query])
+
+    return render(request, 
+                  'blog/search.html',
+                  { 'form': form, 'query': query, 'results': results }
+                  )
 
 @require_POST
 def comment_for_article(request, article_id):
