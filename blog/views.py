@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views import View
 from django.views.decorators.http import require_POST
 from django.db.models import Count
 from taggit.models import Tag
@@ -86,3 +87,22 @@ def comment_for_article(request, article_id):
         comment.save()
 
     return render(request, 'blog/comment.html', {'article': article, 'form': form, 'comment': comment})
+
+
+class SearchArticleView(View):
+    query = None
+    results = []
+    form_class = SearchForm
+
+    def get(self, request):
+        form = self.form_class
+        
+        if 'query' in request.GET:
+            
+            form = self.form_class(request.GET)
+            if form.is_valid():
+                query = form.cleaned_data['query']
+                results = Article.objects.raw("SELECT * FROM blog_article WHERE MATCH (title, body) AGAINST (%s)", [query])
+                return render(request, 'blog/search.html', {'form': form, 'query': query,'results': results})
+                
+        return render(request, 'blog/search.html', {'form': form})
